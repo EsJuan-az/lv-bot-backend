@@ -108,7 +108,7 @@ module.exports = {
         //Here we start
         try{
             const { id } = req.params;
-            let { increase, groupId,name } = req.body;
+            let { increase, groupId,name, profilePic } = req.body;
             //Here we verify that status isn't deleted
 
             //Updating and sending
@@ -117,6 +117,7 @@ module.exports = {
                 'groups.chatId': groupId
             }, {
                 name,
+                profilePic,
                 $cond: [
                     {
                         $gte: ['$groups.$.exp', { $multiply: ['$groups.$.level', 10] }]

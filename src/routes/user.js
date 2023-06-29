@@ -52,7 +52,11 @@ router.put('/group/:id', [
         .withMessage('El incremento debe ser un número'),
     body('name')
         .notEmpty()
-        .withMessage('El nombre no debe estar vacío')
+        .withMessage('El nombre no debe estar vacío'),
+    body('profilePic')
+        .optional()
+        .isURL()
+        .withMessage('La foto de perfil debe ser un enlace')
 ], increaseUserExp)
 
 module.exports = router
