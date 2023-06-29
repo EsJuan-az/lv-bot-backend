@@ -65,7 +65,7 @@ module.exports = {
         //Here we start
         try{
             const { title } = req.body;
-            const memory = new Memory({title, id: uuidv4()});
+            const memory = new Memory({title, id: uuidv4(), description: ''});
             await memory.save();
             res.json({ ok:true, memory })
         }catch(err){
