@@ -32,6 +32,8 @@ router.put('/:id', [
         .optional()
         .isInt({ min: 1, max: 5 })
         .withMessage('prioridad inválida'),
+    body('title')
+        .optional()
 ], updateMemory);
 
 router.put('/image/:id', [

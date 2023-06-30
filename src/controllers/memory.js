@@ -83,12 +83,10 @@ module.exports = {
         try{
             const { id } = req.params;
             const regexp = `^${id}`;
-            let { description, stars } = req.body;
+            let { description, stars, title } = req.body;
             //Here we verify that status isn't deleted
-            const update = {};
+            const update = {description, stars, title};
 
-            if( !!description ) update.description = description.trim();
-            if( !!stars ) update.priority = priority;
 
             //Updating and sending
             const newMemory = await Memory.findOneAndUpdate({id: { $regex: regexp }, deleted: false}, update, { new: true });

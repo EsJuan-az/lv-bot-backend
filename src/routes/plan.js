@@ -34,6 +34,8 @@ router.put('/:id', [
         .not()
         .equals('e')
         .withMessage('status inválido'),
+    body('title')
+        .optional()
 ], updatePlan);
 
 router.put('/image/:id', [

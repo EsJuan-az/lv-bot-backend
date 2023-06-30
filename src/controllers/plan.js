@@ -61,13 +61,15 @@ module.exports = {
         try{
             const { id } = req.params;
             const regexp = `^${id}`;
-            let { description, priority, status } = req.body;
+            let { description, priority, status, title } = req.body;
             //Here we verify that status isn't deleted
-            const update = {};
+            const update = {
+                description,
+                priority,
+                status,
+                title
+            };
 
-            if( !!description ) update.description = description.trim();
-            if( !!status ) update.status = status.toLowerCase().trim();
-            if( !!priority ) update.priority = priority;
 
             //Updating and sending
             const newPlan = await Plan.findOneAndUpdate({id: { $regex: regexp }, status: { $ne:'e' }}, update, { new: true });
