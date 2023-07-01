@@ -134,7 +134,8 @@ module.exports = {
                     $set: {
                         'groups.$': group
                     },
-                    name
+                    name,
+                    profilePic
                 },
                 {
                     new:true
