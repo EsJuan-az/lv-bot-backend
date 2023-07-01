@@ -6,6 +6,8 @@ const { default: mongoose } = require('mongoose');
 const planRouter = require('../routes/plan');
 const memoryRouter = require('../routes/memory');
 const userRouter = require('../routes/user');
+const homeRouter = require('../routes/home');
+
 
 
 class Server{
@@ -24,6 +26,7 @@ class Server{
        console.log('DB: ' + '*'.green); 
     }
     routes(){
+        this.app.use( '/', homeRouter );
         this.app.use( '/plan', planRouter );
         this.app.use( '/memory', memoryRouter );
         this.app.use( '/user', userRouter)

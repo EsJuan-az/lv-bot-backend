@@ -34,6 +34,9 @@ const planSchema = Schema({
     images: {
         type: [String],
         default: []
+    },
+    authorId: {
+        type: String
     }
 });
 module.exports = model('Plan', planSchema);

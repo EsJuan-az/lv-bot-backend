@@ -42,8 +42,8 @@ module.exports = {
         }
         //Here we start
         try{
-            const { title } = req.body;
-            const plan = new Plan({title, id: uuidv4(), description: ''});
+            const { title, authorId } = req.body;
+            const plan = new Plan({title, id: uuidv4(), description: '', authorId});
             await plan.save();
             res.json({ ok:true, plan })
         }catch(err){

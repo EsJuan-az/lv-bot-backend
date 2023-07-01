@@ -42,12 +42,13 @@ module.exports = {
             if( !plan ){
                 return res.status(400).json({ ok: false, msg: 'no existe este plan' });
             }
-            const { tags, title, description  } = plan;
+            const { tags, title, description, authorId  } = plan;
             const memory = new Memory({
                 id: uuidv4(),
                 tags,
                 title,
-                description
+                description,
+                authorId
             })
             await memory.save();
             return res.json({ ok: true, memory });
@@ -64,8 +65,8 @@ module.exports = {
         }
         //Here we start
         try{
-            const { title } = req.body;
-            const memory = new Memory({title, id: uuidv4(), description: ''});
+            const { title, authorId } = req.body;
+            const memory = new Memory({title, id: uuidv4(), description: '', authorId});
             await memory.save();
             res.json({ ok:true, memory })
         }catch(err){

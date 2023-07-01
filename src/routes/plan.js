@@ -17,6 +17,9 @@ router.post('/', [
     body('title')
         .notEmpty()
         .withMessage('el titulo es obligatorio'),
+    body('authorId')
+        .notEmpty()
+        .withMessage('el autor es obligatorio'),
 ], postPlan);
 
 router.put('/:id', [

@@ -36,6 +36,9 @@ const memorySchema = Schema({
     date: {
         type: Date,
         default: now
+    },
+    authorId: {
+        type: String
     }
 });
 module.exports = model('Memory', memorySchema);
