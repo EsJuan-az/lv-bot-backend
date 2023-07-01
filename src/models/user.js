@@ -4,7 +4,9 @@ const userSchema = new Schema({
     userId: String,
     name: String,
     birthday: Date,
-    profilePic: String,
+    profilePic: {
+      type: String,
+    },
     groups: {
       type: [{
         chatId: String,

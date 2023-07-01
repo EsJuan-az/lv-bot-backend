@@ -108,43 +108,43 @@ module.exports = {
         //Here we start
         try{
             const { id } = req.params;
-            let { increase, groupId,name, profilePic } = req.body;
-            //Here we verify that status isn't deleted
+            let { increase, groupId, name, profilePic } = req.body;
+            let newUser;
+            let levelUp = false;
 
-            //Updating and sending
-            let newUser = await User.findOneAndUpdate({
-                userId: id,
-                'groups.chatId': groupId
-            }, {
-                name,
-                profilePic,
-                $cond: [
-                    {
-                        $gte: ['$groups.$.exp', { $multiply: ['$groups.$.level', 10] }]
-                    },
-                    {
-                        'groups.$.exp': increase,
-                        $inc: {
-                            'groups.$.level': 1
-                        }
-                    },
-                    {
-                        $inc:{
-                            'groups.$.exp': increase,
-                        },
-                    }
-                ],
-                $inc: {
-                    'groups.$.totalMsg': 1
+            //Here we verify that status isn't deleted
+            const  response = await User.aggregate([
+               { $match : { userId: id, 'groups.chatId':groupId }},
+               { $unwind: '$groups' },
+               { $match : { 'groups.chatId':groupId } },
+               { $project: { groups: 1, profilePicture: 1 } }
+            ]);
+            if( response.length == 0 ){
+                newUser = await User.findOneAndUpdate({ userId: id }, { $push: { groups: { chatId: groupId } } }, { new: true } );
+            }else{
+                const [{ groups:group }] = response;
+                group.exp += increase;
+                if( group.exp >= (group.level * 10) ) {
+                    group.level ++;
+                    group.exp = group.exp - (group.level * 10);
+                    levelUp = true
                 }
-            }, { new: true });
-            if( !newUser ){
-                newUser = await User.findOneAndUpdate({ userId: id }, { $push: { groups: { chatId: groupId } } }, { new: true } );   
+    
+                newUser = await User.findOneAndUpdate( { userId: id, 'groups.chatId':groupId }, {
+                    $set: {
+                        'groups.$': group
+                    },
+                    name
+                },
+                {
+                    new:true
+                })
             }
+
             if( !newUser ){
                 return res.status(400).json({ ok: false, msg: 'no existe este usuario' });
             }
-            return res.json({ ok: true, user: newUser });
+            return res.json({ ok: true, user: newUser, levelUp });
         }catch(err){
             console.log(err);
             return res.status(500).json({ ok: false, msg: 'no se pudo actualizar el usuario', err })

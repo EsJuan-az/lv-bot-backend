@@ -87,7 +87,6 @@ module.exports = {
             //Here we verify that status isn't deleted
             const update = {description, stars, title};
 
-
             //Updating and sending
             const newMemory = await Memory.findOneAndUpdate({id: { $regex: regexp }, deleted: false}, update, { new: true });
             if( !newMemory ){
