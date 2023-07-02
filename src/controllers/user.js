@@ -133,7 +133,7 @@ module.exports = {
                     group.exp = group.exp - (group.level * 10);
                     levelUp = true
                 }
-                group.exp = parseFloat(group.exp.toFixed(2));
+                group.exp = Math.abs(parseFloat(group.exp.toFixed(2)));
     
                 newUser = await User.findOneAndUpdate( { userId: id, 'groups.chatId':groupId }, {
                     $set: {
