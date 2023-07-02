@@ -122,7 +122,7 @@ module.exports = {
             if( response.length == 0 ){
                 newUser = await User.findOneAndUpdate({ userId: id }, { $push: { groups: { chatId: groupId } } }, { new: true } );
                 if( !newUser ){
-                    const newUser = new User({userId, name});
+                    newUser = new User({userId: id, name,  groups: [{ chatId: groupId }] } );
                     await newUser.save();
                 }
             }else{
