@@ -122,7 +122,8 @@ module.exports = {
             if( response.length == 0 ){
                 newUser = await User.findOneAndUpdate({ userId: id }, { $push: { groups: { chatId: groupId } } }, { new: true } );
                 if( !newUser ){
-                    return this.postUser( req, res )
+                    const newUser = new User({userId, name});
+                    await newUser.save();
                 }
             }else{
                 const [{ groups:group }] = response;
@@ -145,7 +146,6 @@ module.exports = {
                     new:true
                 })
             }
-
             if( !newUser ){
                 return res.status(400).json({ ok: false, msg: 'no existe este usuario' });
             }
