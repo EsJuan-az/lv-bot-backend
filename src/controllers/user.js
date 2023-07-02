@@ -121,6 +121,9 @@ module.exports = {
             ]);
             if( response.length == 0 ){
                 newUser = await User.findOneAndUpdate({ userId: id }, { $push: { groups: { chatId: groupId } } }, { new: true } );
+                if( !newUser ){
+                    return this.postUser( req, res )
+                }
             }else{
                 const [{ groups:group }] = response;
                 group.exp += increase;
